@@ -6,15 +6,20 @@ public:
 	UnivariatePolynomial(const std::vector<double>& coeffs);
 	~UnivariatePolynomial() override;
 	void print() const override;
-	double evaluate(double x) const override;
+	double evaluate_horner(double x) const override;
 	int getDegree() const override;
-	double getCoefficient(int k) const override;
-	void setCoefficient(int k, double value) override;
+	double getCoefficient(int power) const override;
+	void setCoefficient(int power, double value) override;
 	bool isZero() const override;
-	UnivariatePolynomial* add(const AbstractPolynomial& other) const override;
-	UnivariatePolynomial* subtract(const AbstractPolynomial& other) const override;
-	UnivariatePolynomial* multiply(const AbstractPolynomial& other) const override;
-	std::pair<UnivariatePolynomial, UnivariatePolynomial> divide(const UnivariatePolynomial& other) ;
+	double& operator[](int index);
+	UnivariatePolynomial operator+(const UnivariatePolynomial& other) const;
+	UnivariatePolynomial operator-(const UnivariatePolynomial& other) const;
+	UnivariatePolynomial operator*(const UnivariatePolynomial& other) const;
+	std::pair<UnivariatePolynomial, UnivariatePolynomial> operator/(const UnivariatePolynomial& other) const;
+
+
+
+
 private:
 	std::vector<double> coefficients;
 };

@@ -6,13 +6,21 @@ class AbstractPolynomial {
 public:
     virtual ~AbstractPolynomial() {}
     virtual void print() const = 0;
-    virtual double evaluate(double x) const = 0;
+    virtual double evaluate_horner(double x) const = 0;
     virtual bool isZero() const = 0;
     virtual int getDegree() const = 0;
     virtual double getCoefficient(int power) const = 0;
     virtual void setCoefficient(int power, double value) = 0;
-    virtual AbstractPolynomial* add(const AbstractPolynomial& other) const = 0;
-    virtual AbstractPolynomial* subtract(const AbstractPolynomial& other) const = 0;
-    virtual AbstractPolynomial* multiply(const AbstractPolynomial& other) const = 0;
+};
+
+class PolynomialMath
+{
+public:
+    static AbstractPolynomial* add(const AbstractPolynomial& first, const AbstractPolynomial& second);
+    //static AbstractPolynomial* substract(const AbstractPolynomial& first, const AbstractPolynomial& second);
+    //static AbstractPolynomial* multiply(const AbstractPolynomial& first, const AbstractPolynomial& second);
+    //static AbstractPolynomial* divide(const AbstractPolynomial& first, const AbstractPolynomial& second);
+
 private:
+
 };
