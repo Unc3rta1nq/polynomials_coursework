@@ -12,6 +12,12 @@ UnivariatePolynomial::UnivariatePolynomial(const int degree)
 	this->coefficients.resize(degree + 1);
 }
 
+UnivariatePolynomial::UnivariatePolynomial( int degree, std::vector<double>& coeffs)
+{
+	coefficients.resize(degree + 1);
+	coefficients = coeffs;
+}
+
 UnivariatePolynomial::~UnivariatePolynomial() {}
 
 void UnivariatePolynomial::print() const
@@ -159,27 +165,3 @@ std::pair<UnivariatePolynomial, UnivariatePolynomial> UnivariatePolynomial::oper
 	std::pair<UnivariatePolynomial, UnivariatePolynomial> result(quotient, remainder);
 	return result;
 }
-
-
-
-//AbstractPolynomial* PolynomialMath::add(const AbstractPolynomial& first, const AbstractPolynomial& second)
-//{
-//	if (first.coefficients.size() < second.coefficients.size()) {
-//		add(second, first);
-//	}
-//
-//	const int degree = first.coefficients.size();
-//	const int degree_casted = second.coefficients.size();
-//	const int degree_max = std::max(degree, degree_casted);
-//	std::vector<double> result_coeffs(degree_max + 1, 0.0);
-//
-//	for (int i = 0; i <= degree_max; i++) {
-//		double coefficient = (i <= degree ? first.getCoefficient(i) : 0.0) + (i <= degree_casted ? second.getCoefficient(i) : 0.0);
-//		result_coeffs[i] = coefficient;
-//	}
-//
-//	//return coefficients = result_coeffs;
-//	return new UnivariatePolynomial(result_coeffs);
-//}
-
-

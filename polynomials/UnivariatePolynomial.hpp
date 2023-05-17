@@ -4,6 +4,7 @@ class UnivariatePolynomial : public AbstractPolynomial {
 public:
 	UnivariatePolynomial();
 	UnivariatePolynomial(const std::vector<double>& coeffs);
+	UnivariatePolynomial(int degree, std::vector<double>& coeffs);
 	UnivariatePolynomial(const int size);
 	~UnivariatePolynomial() override;
 	void print() const override;
@@ -17,7 +18,6 @@ public:
 	UnivariatePolynomial operator-(const UnivariatePolynomial& other) const;
 	UnivariatePolynomial operator*(const UnivariatePolynomial& other) const;
 	std::pair<UnivariatePolynomial, UnivariatePolynomial> operator/(const UnivariatePolynomial& other) const;
-
 
 
 

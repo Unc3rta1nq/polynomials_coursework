@@ -39,6 +39,5 @@ int main(void) {
 	divide.second.print();
 
 	std::cout << std::endl;
-
 	return 0;
 }
