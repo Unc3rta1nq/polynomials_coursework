@@ -12,15 +12,3 @@ public:
     virtual double getCoefficient(int power) const = 0;
     virtual void setCoefficient(int power, double value) = 0;
 };
-
-class PolynomialMath
-{
-public:
-    static AbstractPolynomial* add(const AbstractPolynomial& first, const AbstractPolynomial& second);
-    //static AbstractPolynomial* substract(const AbstractPolynomial& first, const AbstractPolynomial& second);
-    //static AbstractPolynomial* multiply(const AbstractPolynomial& first, const AbstractPolynomial& second);
-    //static AbstractPolynomial* divide(const AbstractPolynomial& first, const AbstractPolynomial& second);
-
-private:
-
-};

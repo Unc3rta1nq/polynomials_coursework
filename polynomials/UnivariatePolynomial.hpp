@@ -4,6 +4,7 @@ class UnivariatePolynomial : public AbstractPolynomial {
 public:
 	UnivariatePolynomial();
 	UnivariatePolynomial(const std::vector<double>& coeffs);
+	UnivariatePolynomial(const int size);
 	~UnivariatePolynomial() override;
 	void print() const override;
 	double evaluate_horner(double x) const override;

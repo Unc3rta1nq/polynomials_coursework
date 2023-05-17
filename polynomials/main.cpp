@@ -4,7 +4,7 @@
 // evavuate horner +
 // operator []
 //  basic arithmetic operations + - * \
-// change basic methods change retur nvalue
+// change basic methods change return value
 // add constructor (const int degree)
 
 int main(void) {
@@ -18,22 +18,27 @@ int main(void) {
 	std::cout << "Second polynomial: ";
 	poly2.print();
 	std::cout << std::endl;
-	AbstractPolynomial* a = new UnivariatePolynomial({ 1.0,2.0,3.0 });
-	AbstractPolynomial* b = new UnivariatePolynomial({ 1.0,2.0,3.0 });
-	AbstractPolynomial* c = new UnivariatePolynomial({ 1.0,2.0,3.0 });
-	//AbstractPolynomial* a = PolynomL::add(b, c);
 
-	//AbstractPolynomial* result = PolynomialMath::add(*a, *b);
-	std::cout << std::endl;
-	UnivariatePolynomial result = poly1 + poly2;
-
+	UnivariatePolynomial sum = poly1 + poly2;
 	std::cout << "Result sum of 2 poly: ";
-	result.print();
-	UnivariatePolynomial result1 = poly1 * poly2;
-	result1.print();
-	std::pair <UnivariatePolynomial, UnivariatePolynomial> result2 = poly1 / poly2;
-	result2.first.print();
-	result2.second.print();
-	//result->print();
+	sum.print();
+
+	UnivariatePolynomial sub = poly1 - poly2;
+	std::cout << "Result sub of 2 poly: ";
+	sub.print();
+
+	UnivariatePolynomial mul = poly1 * poly2;
+	std::cout << "Result mul of 2 poly: ";
+	mul.print();
+
+	std::pair <UnivariatePolynomial, UnivariatePolynomial> divide = poly1 / poly2;
+	std::cout << "Result divide of 2 poly: " << std::endl << "Quotient: ";
+	divide.first.print();
+
+	std::cout << "Remainder: ";
+	divide.second.print();
+
+	std::cout << std::endl;
+
 	return 0;
 }

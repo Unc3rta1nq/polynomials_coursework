@@ -7,6 +7,11 @@ UnivariatePolynomial::UnivariatePolynomial() {}
 
 UnivariatePolynomial::UnivariatePolynomial(const std::vector<double>& coeffs) : coefficients(coeffs) {}
 
+UnivariatePolynomial::UnivariatePolynomial(const int degree) 
+{
+	this->coefficients.resize(degree + 1);
+}
+
 UnivariatePolynomial::~UnivariatePolynomial() {}
 
 void UnivariatePolynomial::print() const
@@ -93,9 +98,8 @@ double& UnivariatePolynomial::operator[](int index)
 UnivariatePolynomial UnivariatePolynomial::operator+(const UnivariatePolynomial& other) const
 {
 	int degree = coefficients.size() - 1,
-		other_degree = other.coefficients.size() - 1;
-
-	int new_degree = std::max(degree, other_degree);
+		other_degree = other.coefficients.size() - 1,
+		new_degree = std::max(degree, other_degree);
 	std::vector<double> result_coeffs(new_degree + 1, 0.0);
 	for (int i = 0; i <= new_degree; i++)
 		result_coeffs[i] = (i <= coefficients.size() - 1 ? coefficients[i] : 0.0) + (i <= other.coefficients.size() - 1 ? other.coefficients[i] : 0.0);
@@ -104,9 +108,8 @@ UnivariatePolynomial UnivariatePolynomial::operator+(const UnivariatePolynomial&
 UnivariatePolynomial UnivariatePolynomial::operator-(const UnivariatePolynomial& other) const
 {
 	int degree = coefficients.size() - 1,
-		other_degree = other.coefficients.size() - 1;
-
-	int new_degree = std::max(degree, other_degree);
+		other_degree = other.coefficients.size() - 1,
+		new_degree = std::max(degree, other_degree);
 	std::vector<double> result_coeffs(new_degree + 1, 0.0);
 	for (int i = 0; i <= new_degree; i++)
 		result_coeffs[i] = (i <= degree ? coefficients[i] : 0.0) - (i <= other_degree ? other.coefficients[i] : 0.0);
@@ -138,23 +141,22 @@ std::pair<UnivariatePolynomial, UnivariatePolynomial> UnivariatePolynomial::oper
 	}
 	int degree = coefficients.size() - 1,
 		other_degree = other.coefficients.size() - 1;
-	std::vector<double> coefficientsQuotient(degree - other_degree + 1);
-	std::vector<double> coefficientsRemainder(coefficients.begin(), coefficients.end());
+	std::vector<double> coefficients_quotient(degree - other_degree + 1);
+	std::vector<double> coefficients_remainder(coefficients.begin(), coefficients.end());
 	for (int i = degree - other_degree; i >= 0; i--) {
 
-		double quotientCoefficient = coefficientsRemainder[other_degree + i] / other.coefficients[other_degree];
-		coefficientsQuotient[i] = quotientCoefficient;
+		double quotientCoefficient = coefficients_remainder[other_degree + i] / other.coefficients[other_degree];
+		coefficients_quotient[i] = quotientCoefficient;
 	
 		for (int j = 0; j <= other.getDegree(); j++) {
 			int index = i + j;
-			coefficientsRemainder[index] -= quotientCoefficient * other.coefficients[j];
+			coefficients_remainder[index] -= quotientCoefficient * other.coefficients[j];
 		}
 	}
 
-	UnivariatePolynomial quotient(coefficientsQuotient);
-	UnivariatePolynomial remainder(coefficientsRemainder);
+	UnivariatePolynomial quotient(coefficients_quotient);
+	UnivariatePolynomial remainder(coefficients_remainder);
 	std::pair<UnivariatePolynomial, UnivariatePolynomial> result(quotient, remainder);
-
 	return result;
 }
 
