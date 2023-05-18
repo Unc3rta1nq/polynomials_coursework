@@ -39,5 +39,14 @@ int main(void) {
 	divide.second.print();
 
 	std::cout << std::endl;
+
+	UnivariatePolynomial poly({ 24, -50, 35, -10, 1 });
+	poly.print();
+	std::vector<double> roots;
+	roots = poly.findRoots();
+	for (size_t i = 0; i < roots.size(); i++)
+	{
+		std::cout << roots[i] << ' ';
+	}
 	return 0;
 }

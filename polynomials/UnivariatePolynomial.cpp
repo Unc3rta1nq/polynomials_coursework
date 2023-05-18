@@ -122,6 +122,40 @@ UnivariatePolynomial UnivariatePolynomial::operator-(const UnivariatePolynomial&
 	return UnivariatePolynomial(result_coeffs);
 }
 
+std::vector<double> UnivariatePolynomial::findRoots() const //доработать высчитывает нерпавильно
+{
+	std::vector<double> roots;
+	int n = coefficients.size() - 1;
+
+	// Find the root of the highest degree coefficient
+	double a = coefficients[n];
+	double root = sqrt(abs(a));
+	if (a < 0) {
+		roots.push_back(-root);
+		roots.push_back(root);
+	}
+	else {
+		roots.push_back(root);
+		roots.push_back(-root);
+	}
+
+	// Find the remaining roots
+	for (int i = 1; i <= n / 2; i++) {
+		double a = coefficients[n - 2 * i + 1];
+		double b = coefficients[n - 2 * i];
+		double c = roots[0];
+		double d = 0;
+		for (int j = 1; j < i; j++) {
+			d += 2 * j * roots[j] * coefficients[n - 2 * i + 2 * j];
+		}
+		double root = (b - c * d) / a;
+		roots.insert(roots.begin(), root);
+		roots.push_back(-root);
+	}
+
+	return roots;
+}
+
 UnivariatePolynomial UnivariatePolynomial::operator*(const UnivariatePolynomial& other) const
 {
 	int degree = coefficients.size() - 1,
