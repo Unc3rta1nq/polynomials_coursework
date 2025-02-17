@@ -11,5 +11,4 @@ public:
     virtual int getDegree() const = 0;
     virtual double getCoefficient(int power) const = 0;
     virtual void setCoefficient(int power, double value) = 0;
-    virtual std::vector<double> findRoots() const = 0;
 };

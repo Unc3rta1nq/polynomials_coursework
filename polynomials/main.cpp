@@ -1,5 +1,6 @@
 #include "UnivariatePolynomial.hpp"
 #include <iostream>
+#include <stdexcept>
 //TODO:
 // evavuate horner +
 // operator []
@@ -9,12 +10,12 @@
 
 int main(void) {
 
-	UnivariatePolynomial poly1({ 1.0, 0.0, 3.0 });
+	/*UnivariatePolynomial poly1({ 1,4,10,12,9 });
 	std::cout << "First polynomial: ";
 	poly1.print();
 	std::cout << std::endl;
 
-	UnivariatePolynomial poly2({ -1.0, 1.0, 1.0 });
+	UnivariatePolynomial poly2({ 9, -12,4 });
 	std::cout << "Second polynomial: ";
 	poly2.print();
 	std::cout << std::endl;
@@ -38,15 +39,24 @@ int main(void) {
 	std::cout << "Remainder: ";
 	divide.second.print();
 
-	std::cout << std::endl;
+	std::cout << std::endl;*/
 
-	UnivariatePolynomial poly({ 24, -50, 35, -10, 1 });
+	UnivariatePolynomial poly({ 9,-12,10,-4,1 });;
 	poly.print();
-	std::vector<double> roots;
-	roots = poly.findRoots();
-	for (size_t i = 0; i < roots.size(); i++)
-	{
-		std::cout << roots[i] << ' ';
+	std::cout << "Default poly: ";
+	poly.print();
+	std::cout << "sqrt(poly) is: ";
+	auto roots = poly.findRoots();
+	roots.print();
+	try {
+		UnivariatePolynomial poly2({ 1,2,0,1 });
+		std::cout << "Default poly: ";
+		poly2.print();
+		std::cout << "sqrt(poly) is: ";
+		auto roots1 = poly2.findRoots();
+		roots1.print();
 	}
-	return 0;
+	catch (const std::exception& e) {
+		std::cout << e.what() << std::endl;
+	}
 }

@@ -14,10 +14,11 @@ public:
 	void setCoefficient(int power, double value) override;
 	bool isZero() const override;
 	double& operator[](int index);
-	std::vector<double> findRoots() const override;
+	UnivariatePolynomial findRoots() const;
 	UnivariatePolynomial operator+(const UnivariatePolynomial& other) const;
 	UnivariatePolynomial operator-(const UnivariatePolynomial& other) const;
 	UnivariatePolynomial operator*(const UnivariatePolynomial& other) const;
+	bool operator!=(const UnivariatePolynomial& other) const;
 	std::pair<UnivariatePolynomial, UnivariatePolynomial> operator/(const UnivariatePolynomial& other) const;
 
 

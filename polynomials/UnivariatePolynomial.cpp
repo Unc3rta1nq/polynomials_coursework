@@ -7,12 +7,12 @@ UnivariatePolynomial::UnivariatePolynomial() {}
 
 UnivariatePolynomial::UnivariatePolynomial(const std::vector<double>& coeffs) : coefficients(coeffs) {}
 
-UnivariatePolynomial::UnivariatePolynomial(const int degree) 
+UnivariatePolynomial::UnivariatePolynomial(const int degree)
 {
 	this->coefficients.resize(degree + 1);
 }
 
-UnivariatePolynomial::UnivariatePolynomial( int degree, std::vector<double>& coeffs)
+UnivariatePolynomial::UnivariatePolynomial(int degree, std::vector<double>& coeffs)
 {
 	coefficients.resize(degree + 1);
 	coefficients = coeffs;
@@ -22,7 +22,7 @@ UnivariatePolynomial::~UnivariatePolynomial() {}
 
 void UnivariatePolynomial::print() const
 {
-	size_t degree = coefficients.size() -1;
+	size_t degree = coefficients.size() - 1;
 	bool printed = false;
 	for (size_t i = degree; i > 0; --i) {
 		double coef = coefficients[i];
@@ -122,38 +122,62 @@ UnivariatePolynomial UnivariatePolynomial::operator-(const UnivariatePolynomial&
 	return UnivariatePolynomial(result_coeffs);
 }
 
-std::vector<double> UnivariatePolynomial::findRoots() const //доработать высчитывает нерпавильно
+bool UnivariatePolynomial::operator!=(const UnivariatePolynomial& other) const
 {
-	std::vector<double> roots;
-	int n = coefficients.size() - 1;
+	int degree_first = getDegree();
+	int degree_second = other.getDegree();
 
-	// Find the root of the highest degree coefficient
-	double a = coefficients[n];
-	double root = sqrt(abs(a));
-	if (a < 0) {
-		roots.push_back(-root);
-		roots.push_back(root);
+	// Если степени многочленов не равны, они точно разные
+	if (degree_first != degree_second)
+		return true;
+
+	// Сравниваем коэффициенты по степеням
+	for (int i = 0; i <= degree_first; i++) // Цикл должен включать и степень degree_first
+	{
+		if (coefficients[i] != other.coefficients[i])
+			return true;
 	}
-	else {
-		roots.push_back(root);
-		roots.push_back(-root);
+	// Если ни одно условие не сработало, значит многочлены одинаковые
+	return false;
+}
+
+UnivariatePolynomial UnivariatePolynomial::findRoots() const {
+	// Проверяем, что степень многочлена чётная
+	int degree = this->getDegree();
+	if (degree % 2 != 0) {
+		throw std::invalid_argument("Polynomial degree must be even to have a square root.");
 	}
 
-	// Find the remaining roots
-	for (int i = 1; i <= n / 2; i++) {
-		double a = coefficients[n - 2 * i + 1];
-		double b = coefficients[n - 2 * i];
-		double c = roots[0];
-		double d = 0;
-		for (int j = 1; j < i; j++) {
-			d += 2 * j * roots[j] * coefficients[n - 2 * i + 2 * j];
+	// Создаём вектор для коэффициентов корня
+	std::vector<double> sqrtCoeffs(degree / 2 + 1, 0.0);
+
+	// Первый коэффициент корня
+	if (coefficients[degree] < 0) {
+		throw std::invalid_argument("Leading coefficient must be non-negative for a perfect square.");
+	}
+	sqrtCoeffs[degree / 2] = std::sqrt(coefficients[degree]);
+
+	// Постепенно вычисляем остальные коэффициенты
+	for (int i = degree / 2 - 1; i >= 0; --i) {
+		double sum = 0.0;
+		for (int j = i + 1; j <= degree / 2; ++j) {
+			sum += sqrtCoeffs[j] * sqrtCoeffs[degree / 2 + i - j];
 		}
-		double root = (b - c * d) / a;
-		roots.insert(roots.begin(), root);
-		roots.push_back(-root);
+		if (sqrtCoeffs[degree / 2] == 0.0) {
+			throw std::invalid_argument("Division by zero encountered. Polynomial is not a perfect square.");
+		}
+		sqrtCoeffs[i] = (coefficients[degree / 2 + i] - sum) / (2 * sqrtCoeffs[degree / 2]);
 	}
 
-	return roots;
+	// Проверяем, что вычисленный корень действительно является квадратом исходного многочлена
+	UnivariatePolynomial sqrtPoly(sqrtCoeffs);
+	UnivariatePolynomial squaredPoly = sqrtPoly * sqrtPoly;
+
+	if (squaredPoly != *this) {
+		throw std::invalid_argument("Polynomial is not a perfect square.");
+	}
+
+	return sqrtPoly;
 }
 
 UnivariatePolynomial UnivariatePolynomial::operator*(const UnivariatePolynomial& other) const
@@ -187,7 +211,7 @@ std::pair<UnivariatePolynomial, UnivariatePolynomial> UnivariatePolynomial::oper
 
 		double quotientCoefficient = coefficients_remainder[other_degree + i] / other.coefficients[other_degree];
 		coefficients_quotient[i] = quotientCoefficient;
-	
+
 		for (int j = 0; j <= other.getDegree(); j++) {
 			int index = i + j;
 			coefficients_remainder[index] -= quotientCoefficient * other.coefficients[j];

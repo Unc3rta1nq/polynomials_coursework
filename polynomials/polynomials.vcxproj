@@ -133,6 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractPolynomial.hpp" />
+    <ClInclude Include="MultivariatePolynomial.hpp" />
     <ClInclude Include="UnivariatePolynomial.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
