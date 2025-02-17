@@ -41,7 +41,7 @@ int main(void) {
 
 	std::cout << std::endl;*/
 
-	UnivariatePolynomial poly({ 9,-12,10,-4,1 });;
+	/*UnivariatePolynomial poly({ 9,-12,10,-4,1 });;
 	poly.print();
 	std::cout << "Default poly: ";
 	poly.print();
@@ -58,5 +58,6 @@ int main(void) {
 	}
 	catch (const std::exception& e) {
 		std::cout << e.what() << std::endl;
-	}
+	}*/
+	return 0;
 }
