@@ -154,37 +154,153 @@ MultivariatePolynomial MultivariatePolynomial::findRoots() const
 	return MultivariatePolynomial();
 }
 
-MultivariatePolynomial MultivariatePolynomial::operator+(const MultivariatePolynomial& other) const
-{
-	return MultivariatePolynomial();
+MultivariatePolynomial MultivariatePolynomial::operator+(const MultivariatePolynomial& other) const {
+	// Новый многочлен для результата
+	MultivariatePolynomial result;
+	// Проходим по всем членам текущего многочлена
+	for (const auto& term : this->coefficients)
+	{
+		const std::vector<int>& powers = term.first;
+		double coef = term.second;
+		result.setCoefficient(powers, coef);  // Добавляем в результат текущий член
+	}
+	// Проходим по всем членам другого многочлена
+	for (const auto& term : other.coefficients)
+	{
+		const std::vector<int>& powers = term.first;
+		double coef = term.second;
+
+		// Если такой член уже есть в текущем многочлене, прибавляем коэффициент
+		double currentCoef = result.getCoefficient(powers);
+		result.setCoefficient(powers, currentCoef + coef);  // Сложение коэффициентов
+	}
+
+	return result;
 }
 
-MultivariatePolynomial MultivariatePolynomial::operator-(const MultivariatePolynomial& other) const
-{
-	return MultivariatePolynomial();
+
+MultivariatePolynomial MultivariatePolynomial::operator-(const MultivariatePolynomial& other) const {
+	// Новый многочлен для результата
+	MultivariatePolynomial result;
+
+	// Проходим по всем членам текущего многочлена
+	for (const auto& term : this->coefficients)
+	{
+		const std::vector<int>& powers = term.first;
+		double coef = term.second;
+		result.setCoefficient(powers, coef);  // Добавляем текущий член
+	}
+
+	// Проходим по всем членам другого многочлена
+	for (const auto& term : other.coefficients)
+	{
+		const std::vector<int>& powers = term.first;
+		double coef = term.second;
+
+		// Если такой член уже есть в текущем многочлене, вычитаем его коэффициент
+		double currentCoef = result.getCoefficient(powers);
+		result.setCoefficient(powers, currentCoef - coef);  // Вычитание коэффициентов
+	}
+
+	return result;
 }
 
-MultivariatePolynomial MultivariatePolynomial::operator*(const MultivariatePolynomial& other) const
-{
-	return MultivariatePolynomial();
+
+MultivariatePolynomial MultivariatePolynomial::operator*(const MultivariatePolynomial& other) const {
+	MultivariatePolynomial result;  // Новый многочлен для результата
+
+	// Проходим по всем членам текущего многочлена
+	for (const auto& term1 : this->coefficients)
+	{
+		const std::vector<int>& powers1 = term1.first;  // Степени переменных для первого члена
+		double coef1 = term1.second;  // Коэффициент первого члена
+
+		// Проходим по всем членам второго многочлена
+		for (const auto& term2 : other.coefficients)
+		{
+			const std::vector<int>& powers2 = term2.first;  // Степени переменных для второго члена
+			double coef2 = term2.second;  // Коэффициент второго члена
+
+			// Умножаем коэффициенты
+			double newCoef = coef1 * coef2;
+
+			// Складываем степени соответствующих переменных
+			std::vector<int> newPowers;
+			for (size_t i = 0; i < powers1.size(); ++i)
+			{
+				newPowers.push_back(powers1[i] + powers2[i]);
+			}
+
+			// Добавляем новый член в результат (используем метод setCoefficient)
+			double currentCoef = result.getCoefficient(newPowers);
+			result.setCoefficient(newPowers, currentCoef + newCoef);  // Сложение коэффициентов для одинаковых степеней
+		}
+	}
+
+	return result;  // Возвращаем результат
 }
+
 
 bool MultivariatePolynomial::operator!=(const MultivariatePolynomial& other) const {
 	if (this->getDegree() != other.getDegree())
 	{
 		return true;
 	}
-
 	if (this->coefficients != other.coefficients)
 	{
 		return true;
 	}
-
 	return false;  
 }
 
+// Оператор деления
+std::pair<MultivariatePolynomial, MultivariatePolynomial> MultivariatePolynomial::operator/(const MultivariatePolynomial& other) const {
+	MultivariatePolynomial quotient;  // Частное
+	MultivariatePolynomial remainder = *this;  // Остаток, начинаем с самого делимого
 
-std::pair<MultivariatePolynomial, MultivariatePolynomial> MultivariatePolynomial::operator/(const MultivariatePolynomial& other) const
-{
-	return std::pair<MultivariatePolynomial, MultivariatePolynomial>();
+	// Проверяем, что делитель не равен нулю
+	if (other.isZero())
+	{
+		throw std::invalid_argument("Cannot divide by zero polynomial.");
+	}
+
+	// Алгоритм деления с остатком
+	while (!remainder.isZero() && remainder.getDegree() >= other.getDegree())
+	{
+		// Получаем старшие члены у делимого и делителя
+		auto highestTermRemainder = remainder.coefficients.rbegin();  // Старший член остатка
+		auto highestTermOther = other.coefficients.rbegin();  // Старший член делителя
+
+		// Степени и коэффициенты старших членов
+		std::vector<int> powersRemainder = highestTermRemainder->first;
+		double coefRemainder = highestTermRemainder->second;
+
+		std::vector<int> powersOther = highestTermOther->first;
+		double coefOther = highestTermOther->second;
+
+		// Проверка, чтобы деление было возможно
+		if (coefRemainder == 0 || coefOther == 0 || powersRemainder.size() != powersOther.size())
+		{
+			throw std::invalid_argument("Cannot divide: incompatible degrees or zero coefficients.");
+		}
+
+		// Вычисление нового члена частного
+		double newCoef = coefRemainder / coefOther;
+		std::vector<int> newPowers;
+		for (size_t i = 0; i < powersRemainder.size(); ++i)
+		{
+			newPowers.push_back(powersRemainder[i] - powersOther[i]);  // Степени переменных для частного
+		}
+
+		// Добавляем этот новый член в частное
+		quotient.setCoefficient(newPowers, newCoef);
+
+		// Формируем новый остаток после вычитания
+		MultivariatePolynomial termToSubtract;
+		termToSubtract.setCoefficient(newPowers, newCoef);
+
+		remainder = remainder - (other * termToSubtract);  // Вычитаем полученный член из остатка
+	}
+
+	return std::make_pair(quotient, remainder);  // Возвращаем пару (частное, остаток)
 }
