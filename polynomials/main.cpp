@@ -227,5 +227,30 @@ int main(void) {
 	test_set_get.setCoefficient(powers2, 0.0);
 	std::cout << "Coefficient for b^2 after removal: " << test_set_get.getCoefficient(powers2) << std::endl;  // 0.0
 
+
+	std::vector<std::pair<std::vector<int>, double>> terms_test_equals = {
+	{{2, 0, 0}, 3.0},  // 3a^2
+	{{0, 2, 0}, 2.0},  // 2b^2
+	{{0, 0, 1}, 5.0}   // 5c
+	};
+	MultivariatePolynomial test_poly1(terms_test_equals);
+
+	std::vector<std::pair<std::vector<int>, double>> terms_test_equals2 = {
+		{{2, 0, 0}, 3.0},  // 3a^2
+		{{0, 2, 0}, 2.0},  // 2b^2
+		{{0, 0, 1}, 5.0}   // 5c
+	};
+	MultivariatePolynomial test_poly2(terms_test_equals2);
+
+	std::vector<std::pair<std::vector<int>, double>> terms_test_equals3 = {
+		{{2, 0, 0}, 3.0},  // 3a^2
+		{{0, 1, 0}, 2.0},  // 2b
+		{{0, 0, 1}, 5.0}   // 5c
+	};
+	MultivariatePolynomial test_poly3(terms_test_equals3);
+
+	// Сравниваем многочлены
+	std::cout << (test_poly1 != test_poly2) << std::endl;  // Вывод: 0 (многочлены одинаковые)
+	std::cout << (test_poly1 != test_poly3) << std::endl;  // Вывод: 1 (многочлены разные)
 	return 0;
 }

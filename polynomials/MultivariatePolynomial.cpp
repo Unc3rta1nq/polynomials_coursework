@@ -169,10 +169,20 @@ MultivariatePolynomial MultivariatePolynomial::operator*(const MultivariatePolyn
 	return MultivariatePolynomial();
 }
 
-bool MultivariatePolynomial::operator!=(const MultivariatePolynomial& other) const
-{
-	return false;
+bool MultivariatePolynomial::operator!=(const MultivariatePolynomial& other) const {
+	if (this->getDegree() != other.getDegree())
+	{
+		return true;
+	}
+
+	if (this->coefficients != other.coefficients)
+	{
+		return true;
+	}
+
+	return false;  
 }
+
 
 std::pair<MultivariatePolynomial, MultivariatePolynomial> MultivariatePolynomial::operator/(const MultivariatePolynomial& other) const
 {
