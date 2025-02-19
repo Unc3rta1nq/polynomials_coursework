@@ -193,9 +193,8 @@ MultivariatePolynomial MultivariatePolynomial::sqrt() const {
 		return MultivariatePolynomial();
 	}
 
-	// Определяем количество переменных (размерность)
 	int num_vars = coefficients.begin()->first.size();
-	std::vector<int> alphas(num_vars - 1, 0); // Храним alpha для каждой переменной
+	std::vector<int> alphas(num_vars - 1, 0); 
 
 	std::vector<std::pair<std::vector<int>, double>> transformed_coefficients(coefficients.begin(), coefficients.end());
 
@@ -213,7 +212,7 @@ MultivariatePolynomial MultivariatePolynomial::sqrt() const {
 		alphas[var - 1] = (max_degree / 2) + 1;
 		int alpha = alphas[var - 1];
 
-		std::cout << "Alpha[" << var - 1 << "]: " << alpha << std::endl;
+		//std::cout << "Alpha[" << var - 1 << "]: " << alpha << std::endl;
 
 		// Подставляем x[var] = a^alpha
 		std::vector<std::pair<std::vector<int>, double>> new_coeffs;
@@ -236,7 +235,6 @@ MultivariatePolynomial MultivariatePolynomial::sqrt() const {
 		transformed_coefficients = new_coeffs;
 	}
 
-	// Новый вектор для хранения нормализованных коэффициентов
 	std::vector<std::pair<std::vector<int>, double>> new_coeffs;
 	/*std::cout << "Before normalize: " << std::endl;
 	printVector(transformed_coefficients);*/
@@ -267,36 +265,34 @@ MultivariatePolynomial MultivariatePolynomial::sqrt() const {
 		}
 	}
 
-	// Теперь new_coeffs содержит нормализованные коэффициенты, где одинаковые степени объединены
-	std::cout << "Normalized coefficients: " << std::endl;
-	printVector(new_coeffs);  // Выводим нормализованные коэффициенты
+	// new_coeffs содержит нормализованные коэффициенты, где одинаковые степени объединены
 
-	// Создаем одномерный многочлен от a
+	//std::cout << "Normalized coefficients: " << std::endl;
+	//printVector(new_coeffs); 
+
+
 	int max_degree_a = 0;
 	for (const auto& term : new_coeffs)
 	{
-		max_degree_a = std::max(max_degree_a, term.first[0]); // Берем степень a
+		max_degree_a = std::max(max_degree_a, term.first[0]);
 	}
 
-	// Создаем вектор коэффициентов для одномерного многочлена
 	std::vector<double> univariate_coeffs(max_degree_a + 1, 0.0);
 
-	// Заполняем вектор коэффициентов, теперь с учетом нормализации
+	// Заполняем вектор коэффициентов для многочлена от одной переменной
 	for (const auto& term : new_coeffs)
 	{
 		int a_exp = term.first[0];
 		univariate_coeffs[a_exp] = term.second;
 	}
 
-	// Строим одномерный многочлен и извлекаем квадратный корень
 	UnivariatePolynomial univariatePoly(univariate_coeffs);
-	std::cout << "Univariate polynomial before sqrt: ";
-	univariatePoly.print();
+	/*std::cout << "Univariate polynomial before sqrt: ";
+	univariatePoly.print();*/
 
-	// Извлекаем квадратный корень
 	UnivariatePolynomial sqrtUnivariatePoly = univariatePoly.sqrt();
-	std::cout << "Univariate polynomial after sqrt: ";
-	sqrtUnivariatePoly.print();
+	/*std::cout << "Univariate polynomial after sqrt: ";
+	sqrtUnivariatePoly.print();*/
 
 	// Восстанавливаем степени (обратное преобразование)
 	MultivariatePolynomial result;
@@ -318,8 +314,14 @@ MultivariatePolynomial MultivariatePolynomial::sqrt() const {
 		result.setCoefficient(restored_powers, coef);
 	}
 
-	std::cout << "Final restored MultivariatePolynomial: ";
-	result.print();
+	/*std::cout << "Final restored MultivariatePolynomial: ";
+	result.print();*/
+	MultivariatePolynomial squaredPoly = result * result;
+
+	if (squaredPoly != *this)
+	{
+		throw std::invalid_argument("Polynomial is not a perfect square.");
+	}
 
 	return result;
 }

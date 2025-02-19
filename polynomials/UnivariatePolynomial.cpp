@@ -127,28 +127,24 @@ bool UnivariatePolynomial::operator!=(const UnivariatePolynomial& other) const
 	int degree_first = getDegree();
 	int degree_second = other.getDegree();
 
-	// Если степени многочленов не равны, они точно разные
 	if (degree_first != degree_second)
 		return true;
 
-	// Сравниваем коэффициенты по степеням
-	for (int i = 0; i <= degree_first; i++) // Цикл должен включать и степень degree_first
+	for (int i = 0; i <= degree_first; i++)
 	{
 		if (coefficients[i] != other.coefficients[i])
 			return true;
 	}
-	// Если ни одно условие не сработало, значит многочлены одинаковые
+
 	return false;
 }
 
 UnivariatePolynomial UnivariatePolynomial::sqrt() const {
-	// Проверяем, что степень многочлена чётная
 	int degree = this->getDegree();
 	if (degree % 2 != 0) {
 		throw std::invalid_argument("Polynomial degree must be even to have a square root.");
 	}
 
-	// Создаём вектор для коэффициентов корня
 	std::vector<double> sqrtCoeffs(degree / 2 + 1, 0.0);
 
 	// Первый коэффициент корня

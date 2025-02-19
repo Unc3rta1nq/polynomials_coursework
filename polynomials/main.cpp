@@ -420,7 +420,6 @@ int main(void) {
 
 	// Создаем объект многочлена
 	MultivariatePolynomial poly1338(terms1338);
-	std::cout << "Initial Polynomial: " << std::endl;
 	poly1338.print();
 
 	try
@@ -455,7 +454,6 @@ int main(void) {
 
 
 	MultivariatePolynomial poly1339(terms1339);
-	std::cout << "Initial Polynomial: " << std::endl;
 	poly1339.print();
 
 	try
