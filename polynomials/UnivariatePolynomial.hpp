@@ -1,4 +1,4 @@
-#include "AbstractPolynomial.hpp"
+#include "AbstractUnivariatePolynomial.hpp"
 
 class UnivariatePolynomial : public AbstractPolynomial {
 public:

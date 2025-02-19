@@ -1,10 +1,11 @@
-#include "MultivariatePolynomial.hpp"
+п»ї#include "MultivariatePolynomial.hpp"
 #include <utility>
 #include <stdexcept>
 #include <iostream>
 #include <vector>
 #include <numeric>
 #include "UnivariatePolynomial.hpp"
+
 
 void printVector(const std::vector<std::pair<std::vector<int>, double>>& v) {
 	for (const auto& pair : v)
@@ -22,7 +23,9 @@ void printVector(const std::vector<std::pair<std::vector<int>, double>>& v) {
 	}
 }
 
+
 MultivariatePolynomial::MultivariatePolynomial() {}
+
 
 MultivariatePolynomial::MultivariatePolynomial(const std::vector<std::pair<std::vector<int>, double>>& terms) {
 	for (const auto& term : terms)
@@ -30,6 +33,7 @@ MultivariatePolynomial::MultivariatePolynomial(const std::vector<std::pair<std::
 		coefficients[term.first] = term.second;
 	}
 }
+
 
 MultivariatePolynomial::~MultivariatePolynomial() {}
 
@@ -69,7 +73,7 @@ void MultivariatePolynomial::print() const {
 			{
 				if (degrees[i] > 0)
 				{
-					std::cout << char('a' + i); // Переменные, например, 'a', 'b', 'c', ...
+					std::cout << char('a' + i); // РџРµСЂРµРјРµРЅРЅС‹Рµ, РЅР°РїСЂРёРјРµСЂ, 'a', 'b', 'c', ...
 					if (degrees[i] > 1)
 						std::cout << "^" << degrees[i];
 				}
@@ -86,6 +90,7 @@ void MultivariatePolynomial::print() const {
 
 	std::cout << std::endl;
 }
+
 
 double MultivariatePolynomial::evaluate_horner(const std::vector<double>& variables) const {
 
@@ -116,7 +121,6 @@ double MultivariatePolynomial::evaluate_horner(const std::vector<double>& variab
 }
 
 
-
 int MultivariatePolynomial::getDegree() const {
 	int max_degree = 0;
 
@@ -135,6 +139,7 @@ int MultivariatePolynomial::getDegree() const {
 	return max_degree;
 }
 
+
 double MultivariatePolynomial::getCoefficient(const std::vector<int>& powers) const {
 	auto it = coefficients.find(powers);
 	if (it != coefficients.end())
@@ -143,6 +148,7 @@ double MultivariatePolynomial::getCoefficient(const std::vector<int>& powers) co
 	}
 	return 0.0;
 }
+
 
 void MultivariatePolynomial::setCoefficient(const std::vector<int>& powers, double value) {
 
@@ -179,114 +185,136 @@ bool MultivariatePolynomial::validateVariables(const std::vector<double>& variab
 	}
 	return true;
 }
+
+
 MultivariatePolynomial MultivariatePolynomial::sqrt() const {
 	if (this->isZero())
 	{
 		return MultivariatePolynomial();
 	}
 
-	// Определяем максимальную степень переменной 'a'
-	int max_degree_a = 0;
-	for (const auto& term : coefficients)
+	// РћРїСЂРµРґРµР»СЏРµРј РєРѕР»РёС‡РµСЃС‚РІРѕ РїРµСЂРµРјРµРЅРЅС‹С… (СЂР°Р·РјРµСЂРЅРѕСЃС‚СЊ)
+	int num_vars = coefficients.begin()->first.size();
+	std::vector<int> alphas(num_vars - 1, 0); // РҐСЂР°РЅРёРј alpha РґР»СЏ РєР°Р¶РґРѕР№ РїРµСЂРµРјРµРЅРЅРѕР№
+
+	std::vector<std::pair<std::vector<int>, double>> transformed_coefficients(coefficients.begin(), coefficients.end());
+
+	// РџРѕРѕС‡РµСЂРµРґРЅРѕ Р·Р°РјРµРЅСЏРµРј РїРµСЂРµРјРµРЅРЅС‹Рµ (РєСЂРѕРјРµ РїРѕСЃР»РµРґРЅРµР№)
+	for (int var = 1; var < num_vars; ++var)
 	{
-		max_degree_a = std::max(max_degree_a, term.first[0]); // Используем первую переменную (a)
+		// РћРїСЂРµРґРµР»СЏРµРј РјР°РєСЃРёРјР°Р»СЊРЅСѓСЋ СЃС‚РµРїРµРЅСЊ С‚РµРєСѓС‰РµР№ РїРµСЂРІРѕР№ РїРµСЂРµРјРµРЅРЅРѕР№ (a)
+		int max_degree = 0;
+		for (const auto& term : transformed_coefficients)
+		{
+			max_degree = std::max(max_degree, term.first[0]);
+		}
+
+		// Р’С‹С‡РёСЃР»СЏРµРј alpha
+		alphas[var - 1] = (max_degree / 2) + 1;
+		int alpha = alphas[var - 1];
+
+		std::cout << "Alpha[" << var - 1 << "]: " << alpha << std::endl;
+
+		// РџРѕРґСЃС‚Р°РІР»СЏРµРј x[var] = a^alpha
+		std::vector<std::pair<std::vector<int>, double>> new_coeffs;
+		for (const auto& term : transformed_coefficients)
+		{
+			std::vector<int> new_powers = term.first;
+			int a_exp = new_powers[0];  // РЎС‚РµРїРµРЅСЊ a
+			int x_exp = new_powers[var]; // РЎС‚РµРїРµРЅСЊ Р·Р°РјРµРЅСЏРµРјРѕР№ РїРµСЂРµРјРµРЅРЅРѕР№
+
+			// РџСЂРµРѕР±СЂР°Р·СѓРµРј x[var] = a^(alpha * x_exp)
+			int new_a_exp = a_exp + (x_exp * alpha);
+
+			// РћР±РЅРѕРІР»СЏРµРј СЃС‚РµРїРµРЅРё
+			new_powers[0] = new_a_exp; // a РїСЂРёРЅРёРјР°РµС‚ РЅРѕРІСѓСЋ СЃС‚РµРїРµРЅСЊ
+			new_powers[var] = 0;       // РЈР±РёСЂР°РµРј x[var]
+
+			new_coeffs.emplace_back(new_powers, term.second);
+		}
+
+		transformed_coefficients = new_coeffs;
 	}
 
-	int beta = (max_degree_a / 2) + 1;
-	std::cout << "Betta: " << beta << std::endl;
-	std::vector<std::pair<std::vector<int>, double>> transformed_coefficients; // Используем вектор пар
-
-	// Подставляем b = a^beta
-	for (const auto& term : coefficients)
-	{
-		std::vector<int> new_powers = term.first;
-		int a_exp = new_powers[0]; // Степень a
-		int b_exp = new_powers[1]; // Степень b
-
-		// Подставляем b = a^beta => b^k = a^(beta * k)
-		int new_a_exp = a_exp + (b_exp * beta);
-
-		// Обновляем степени
-		new_powers[0] = new_a_exp; // a принимает новую степень
-		new_powers[1] = 0; // b заменено, больше не участвует
-
-		transformed_coefficients.emplace_back(new_powers, term.second);
-	}
-
-	/*std::cout << "After substituting b = a^beta: " << std::endl;
+	// РќРѕРІС‹Р№ РІРµРєС‚РѕСЂ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РЅРѕСЂРјР°Р»РёР·РѕРІР°РЅРЅС‹С… РєРѕСЌС„С„РёС†РёРµРЅС‚РѕРІ
+	std::vector<std::pair<std::vector<int>, double>> new_coeffs;
+	/*std::cout << "Before normalize: " << std::endl;
 	printVector(transformed_coefficients);*/
 
-	MultivariatePolynomial test(transformed_coefficients);
-	std::cout << "MultivariatePolynomial after b substitution: ";
-	test.print();
-
-	// Определяем max степень новой переменной 'a'
-	max_degree_a = 0;
+	// РџСЂРѕС…РѕРґРёРј РїРѕ РІСЃРµРј С‚РµСЂРјР°Рј
 	for (const auto& term : transformed_coefficients)
 	{
-		max_degree_a = std::max(max_degree_a, term.first[0]);
+		const auto& powers = term.first;
+		double coef = term.second;
+
+		bool found = false;
+
+		// РС‰РµРј, РµСЃС‚СЊ Р»Рё СѓР¶Рµ С‚Р°РєРѕР№ С‚РµСЂРј РІ new_coeffs
+		for (auto& existing_term : new_coeffs)
+		{
+			if (existing_term.first == powers)
+			{
+				existing_term.second += coef;  // Р•СЃР»Рё РЅР°С€Р»Рё, СЃСѓРјРјРёСЂСѓРµРј РєРѕСЌС„С„РёС†РёРµРЅС‚С‹
+				found = true;
+				break;
+			}
+		}
+
+		// Р•СЃР»Рё С‚Р°РєРѕРіРѕ С‚РµСЂРјР° РЅРµС‚, РґРѕР±Р°РІР»СЏРµРј РµРіРѕ РІ new_coeffs
+		if (!found)
+		{
+			new_coeffs.push_back(term);
+		}
 	}
 
-	int gamma = (max_degree_a / 2) + 1;
-	std::cout << "Gamma: " << gamma << std::endl;
+	// РўРµРїРµСЂСЊ new_coeffs СЃРѕРґРµСЂР¶РёС‚ РЅРѕСЂРјР°Р»РёР·РѕРІР°РЅРЅС‹Рµ РєРѕСЌС„С„РёС†РёРµРЅС‚С‹, РіРґРµ РѕРґРёРЅР°РєРѕРІС‹Рµ СЃС‚РµРїРµРЅРё РѕР±СЉРµРґРёРЅРµРЅС‹
+	std::cout << "Normalized coefficients: " << std::endl;
+	printVector(new_coeffs);  // Р’С‹РІРѕРґРёРј РЅРѕСЂРјР°Р»РёР·РѕРІР°РЅРЅС‹Рµ РєРѕСЌС„С„РёС†РёРµРЅС‚С‹
 
-	std::vector<std::pair<std::vector<int>, double>> new_transformed_coefficients;
-	for (const auto& term : transformed_coefficients)
+	// РЎРѕР·РґР°РµРј РѕРґРЅРѕРјРµСЂРЅС‹Р№ РјРЅРѕРіРѕС‡Р»РµРЅ РѕС‚ a
+	int max_degree_a = 0;
+	for (const auto& term : new_coeffs)
 	{
-		std::vector<int> new_powers = term.first;
-		int a_exp = new_powers[0]; // Степень a
-		int c_exp = new_powers[2]; // Степень c
-
-		// Подставляем c = a^gamma => c^k = a^(gamma * k)
-		int new_a_exp = a_exp + (c_exp * gamma);
-
-		// Обновляем степени
-		new_powers[0] = new_a_exp; // a принимает новую степень
-		new_powers[2] = 0; // c заменено, больше не участвует
-
-		new_transformed_coefficients.emplace_back(new_powers, term.second);
+		max_degree_a = std::max(max_degree_a, term.first[0]); // Р‘РµСЂРµРј СЃС‚РµРїРµРЅСЊ a
 	}
 
-	MultivariatePolynomial test1(new_transformed_coefficients);
-	std::cout << "MultivariatePolynomial after c substitution: ";
-	test1.print();
-
-	max_degree_a = 0;
-	for (const auto& term : new_transformed_coefficients)
-	{
-		max_degree_a = std::max(max_degree_a, term.first[0]); // Берем степень a
-	}
-
-	// Создаем вектор коэффициентов (заполненный нулями)
+	// РЎРѕР·РґР°РµРј РІРµРєС‚РѕСЂ РєРѕСЌС„С„РёС†РёРµРЅС‚РѕРІ РґР»СЏ РѕРґРЅРѕРјРµСЂРЅРѕРіРѕ РјРЅРѕРіРѕС‡Р»РµРЅР°
 	std::vector<double> univariate_coeffs(max_degree_a + 1, 0.0);
 
-	// Заполняем вектор коэффициентов
-	for (const auto& term : new_transformed_coefficients)
+	// Р—Р°РїРѕР»РЅСЏРµРј РІРµРєС‚РѕСЂ РєРѕСЌС„С„РёС†РёРµРЅС‚РѕРІ, С‚РµРїРµСЂСЊ СЃ СѓС‡РµС‚РѕРј РЅРѕСЂРјР°Р»РёР·Р°С†РёРё
+	for (const auto& term : new_coeffs)
 	{
-		int a_exp = term.first[0]; // Степень a
-		univariate_coeffs[a_exp] = term.second; // Записываем коэффициент в соответствующий индекс
+		int a_exp = term.first[0];
+		univariate_coeffs[a_exp] = term.second;
 	}
 
-	UnivariatePolynomial test3(univariate_coeffs);
+	// РЎС‚СЂРѕРёРј РѕРґРЅРѕРјРµСЂРЅС‹Р№ РјРЅРѕРіРѕС‡Р»РµРЅ Рё РёР·РІР»РµРєР°РµРј РєРІР°РґСЂР°С‚РЅС‹Р№ РєРѕСЂРµРЅСЊ
+	UnivariatePolynomial univariatePoly(univariate_coeffs);
 	std::cout << "Univariate polynomial before sqrt: ";
-	test3.print();
+	univariatePoly.print();
 
-	UnivariatePolynomial sqrtUnivariatePoly = test3.sqrt();
+	// РР·РІР»РµРєР°РµРј РєРІР°РґСЂР°С‚РЅС‹Р№ РєРѕСЂРµРЅСЊ
+	UnivariatePolynomial sqrtUnivariatePoly = univariatePoly.sqrt();
 	std::cout << "Univariate polynomial after sqrt: ";
 	sqrtUnivariatePoly.print();
 
-	// Восстанавливаем степени
+	// Р’РѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµРј СЃС‚РµРїРµРЅРё (РѕР±СЂР°С‚РЅРѕРµ РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ)
 	MultivariatePolynomial result;
 	const auto& coeffs = sqrtUnivariatePoly.getCoefficients();
 	for (size_t i = 0; i < coeffs.size(); ++i)
 	{
 		double coef = coeffs[i];
 
-		int c_exp = i / gamma;
-		int b_exp = (i % gamma) / beta;
-		int a_exp = (i % gamma) % beta;
+		// Р’РѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµРј СЃС‚РµРїРµРЅРё РґР»СЏ РєР°Р¶РґРѕР№ РїРµСЂРµРјРµРЅРЅРѕР№
+		std::vector<int> restored_powers(num_vars, 0);
+		int remaining = i;
+		for (int var = num_vars - 2; var >= 0; --var)
+		{
+			restored_powers[var + 1] = remaining / alphas[var];
+			remaining = remaining % alphas[var];
+		}
+		restored_powers[0] = remaining;
 
-		std::vector<int> restored_powers = { a_exp, b_exp, c_exp };
 		result.setCoefficient(restored_powers, coef);
 	}
 
@@ -295,11 +323,6 @@ MultivariatePolynomial MultivariatePolynomial::sqrt() const {
 
 	return result;
 }
-
-
-
-
-
 
 
 MultivariatePolynomial MultivariatePolynomial::operator+(const MultivariatePolynomial& other) const {

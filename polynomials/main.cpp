@@ -311,22 +311,22 @@ int main(void) {
 	//std::cout << "Remainder: ";
 	//result.second.print();
 
-	//std::vector<std::pair<std::vector<int>, double>> terms228 = {
-	//	{{4, 2}, 1.0}  // 1 * x^2 * y^2
-	//};
+	std::vector<std::pair<std::vector<int>, double>> terms228 = {
+		{{4, 2}, 1.0}  // 1 * x^2 * y^2
+	};
 
-	//MultivariatePolynomial poly228(terms228);
-	//poly228.print();
-	//try
-	//{
-	//	auto res = poly228.sqrt();
-	//	std::cout << "square root from poly228 is: ";
-	//	res.print();
-	//}
-	//catch (std::exception& err)
-	//{
-	//	std::cout << err.what() << std::endl;
-	//}
+	MultivariatePolynomial poly228(terms228);
+	poly228.print();
+	try
+	{
+		auto res = poly228.sqrt();
+		std::cout << "square root from poly228 is: ";
+		res.print();
+	}
+	catch (std::exception& err)
+	{
+		std::cout << err.what() << std::endl;
+	}
 
 
 
@@ -355,24 +355,24 @@ int main(void) {
 
 
 
-	//std::vector<std::pair<std::vector<int>, double>> terms321 = {
-	//	{{2, 0}, 4.0}, // 4a^2
-	//	{{1, 1}, 4.0}, // 4ab
-	//	{{0, 2}, 1.0}  // b^2
-	//};
-	//MultivariatePolynomial poly123(terms321);
-	//poly123.print();
-	//try
-	//{
-	//	MultivariatePolynomial sqrtPoly = poly123.sqrt();
-	//	std::cout << "Square root of polynomial: ";
-	//	sqrtPoly.print();
+	std::vector<std::pair<std::vector<int>, double>> terms321 = {
+		{{2, 0}, 4.0}, // 4a^2
+		{{1, 1}, 4.0}, // 4ab
+		{{0, 2}, 1.0}  // b^2
+	};
+	MultivariatePolynomial poly123(terms321);
+	poly123.print();
+	try
+	{
+		MultivariatePolynomial sqrtPoly = poly123.sqrt();
+		std::cout << "Square root of polynomial: ";
+		sqrtPoly.print();
 
-	//}
-	//catch (std::exception& err)
-	//{
-	//	std::cout << err.what() << std::endl;
-	//}
+	}
+	catch (std::exception& err)
+	{
+		std::cout << err.what() << std::endl;
+	}
 
 
 
@@ -397,6 +397,73 @@ int main(void) {
 		auto res_ = poly1337.sqrt();
 		res_.print();
 
+	}
+	catch (std::exception& err)
+	{
+		std::cout << err.what() << std::endl;
+	}
+
+
+	std::vector<std::pair<std::vector<int>, double>> terms1338 = {
+	{{2, 0, 0, 0}, 1.0},  // a^2
+	{{1, 1, 0, 0}, 2.0},  // 2ab
+	{{1, 0, 1, 0}, 2.0},  // 2ac
+	{{1, 0, 0, 1}, 2.0},  // 2ad
+	{{0, 2, 0, 0}, 1.0},  // b^2
+	{{0, 1, 1, 0}, 2.0},  // 2bc
+	{{0, 1, 0, 1}, 2.0},  // 2bd
+	{{0, 0, 2, 0}, 1.0},  // c^2
+	{{0, 0, 1, 1}, 2.0},  // 2cd
+	{{0, 0, 0, 2}, 1.0}   // d^2
+	};
+
+
+	// Создаем объект многочлена
+	MultivariatePolynomial poly1338(terms1338);
+	std::cout << "Initial Polynomial: " << std::endl;
+	poly1338.print();
+
+	try
+	{
+		// Извлечение квадратного корня
+		auto res_ = poly1338.sqrt();
+		std::cout << "Square Root Polynomial: " << std::endl;
+		res_.print();
+	}
+	catch (std::exception& err)
+	{
+		std::cout << err.what() << std::endl;
+	}
+
+	std::vector<std::pair<std::vector<int>, double>> terms1339 = {
+		{{2,0,0,0,0,0},1},
+		{{1,1,0,0,0,0},2},
+		{{1,0,1,0,0,0},2},
+		{{1,0,0,1,0,0},2},
+		{{1,0,0,0,0,1},4000},
+		{{0,2,0,0,0,0},1},
+		{{0,1,1,0,0,0},2},
+		{{0,1,0,1,0,0},2},
+		{{0,1,0,0,0,1},4000},
+		{{0,0,2,0,0,0},1},
+		{{0,0,1,1,0,0},2},
+		{{0,0,1,0,0,1},4000},
+		{{0,0,0,2,0,0},1},
+		{{0,0,0,1,0,1},4000},
+		{{0,0,0,0,0,2},4000000}
+	};
+
+
+	MultivariatePolynomial poly1339(terms1339);
+	std::cout << "Initial Polynomial: " << std::endl;
+	poly1339.print();
+
+	try
+	{
+		// Извлечение квадратного корня
+		auto res_ = poly1339.sqrt();
+		std::cout << "Square Root Polynomial: " << std::endl;
+		res_.print();
 	}
 	catch (std::exception& err)
 	{

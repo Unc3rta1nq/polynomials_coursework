@@ -127,13 +127,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AbstractPolynomial.cpp" />
+    <ClCompile Include="AbstractMultivariatePolynomial.hpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MultivariatePolynomial.cpp" />
     <ClCompile Include="UnivariatePolynomial.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AbstractPolynomial.hpp" />
+    <ClInclude Include="AbstractUnivariatePolynomial.hpp" />
     <ClInclude Include="MultivariatePolynomial.hpp" />
     <ClInclude Include="UnivariatePolynomial.hpp" />
   </ItemGroup>

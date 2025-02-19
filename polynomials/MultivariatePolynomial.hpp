@@ -1,19 +1,19 @@
-#include "AbstractPolynomial.hpp"
+#include "AbstractMultivariatePolynomial.hpp"
 #include <map>
 
-class MultivariatePolynomial {
+class MultivariatePolynomial : AbstractMultivariatePolynomial {
 
 public:
 	MultivariatePolynomial();
 	MultivariatePolynomial(const std::vector<std::pair<std::vector<int>, double>>& terms);
 	~MultivariatePolynomial();
-	void print() const;
-	double evaluate_horner(const std::vector<double>& variables) const;
-	int getDegree() const;
-	double getCoefficient(const std::vector<int>& powers) const;
-	void setCoefficient(const std::vector<int>& powers, double value);
-	bool isZero() const;
-	bool validateVariables(const std::vector<double>& variables) const;
+	void print() const override;
+	double evaluate_horner(const std::vector<double>& variables) const override;
+	int getDegree() const override;
+	double getCoefficient(const std::vector<int>& powers) const override;
+	void setCoefficient(const std::vector<int>& powers, double value) override;
+	bool isZero() const override;
+	bool validateVariables(const std::vector<double>& variables) const override;
 	MultivariatePolynomial sqrt() const;
 	MultivariatePolynomial operator+(const MultivariatePolynomial& other) const;
 	MultivariatePolynomial operator-(const MultivariatePolynomial& other) const;
