@@ -5,8 +5,6 @@ VisualStudioVersion = 17.5.33502.453
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "polynomials", "polynomials\polynomials.vcxproj", "{F2ED8B4C-E467-4477-BEB5-74A53A1D9FAB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test", "test\test.vcxproj", "{08172ED6-0BCB-4C62-AF0F-CADA3EAA39DC}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -23,14 +21,6 @@ Global
 		{F2ED8B4C-E467-4477-BEB5-74A53A1D9FAB}.Release|x64.Build.0 = Release|x64
 		{F2ED8B4C-E467-4477-BEB5-74A53A1D9FAB}.Release|x86.ActiveCfg = Release|Win32
 		{F2ED8B4C-E467-4477-BEB5-74A53A1D9FAB}.Release|x86.Build.0 = Release|Win32
-		{08172ED6-0BCB-4C62-AF0F-CADA3EAA39DC}.Debug|x64.ActiveCfg = Debug|x64
-		{08172ED6-0BCB-4C62-AF0F-CADA3EAA39DC}.Debug|x64.Build.0 = Debug|x64
-		{08172ED6-0BCB-4C62-AF0F-CADA3EAA39DC}.Debug|x86.ActiveCfg = Debug|Win32
-		{08172ED6-0BCB-4C62-AF0F-CADA3EAA39DC}.Debug|x86.Build.0 = Debug|Win32
-		{08172ED6-0BCB-4C62-AF0F-CADA3EAA39DC}.Release|x64.ActiveCfg = Release|x64
-		{08172ED6-0BCB-4C62-AF0F-CADA3EAA39DC}.Release|x64.Build.0 = Release|x64
-		{08172ED6-0BCB-4C62-AF0F-CADA3EAA39DC}.Release|x86.ActiveCfg = Release|Win32
-		{08172ED6-0BCB-4C62-AF0F-CADA3EAA39DC}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

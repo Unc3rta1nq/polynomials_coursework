@@ -252,60 +252,155 @@ int main(void) {
 	//// Сравниваем многочлены
 	//std::cout << (test_poly1 != test_poly2) << std::endl;  // Вывод: 0 (многочлены одинаковые)
 	//std::cout << (test_poly1 != test_poly3) << std::endl;  // Вывод: 1 (многочлены разные)
-	std::vector<std::pair<std::vector<int>, double>> terms1 = {
-		{{2, 0, 0}, 3.0},  // 3a^2
-		{{0, 2, 0}, 2.0},  // 2b^2
-		{{0, 0, 1}, 5.0}   // 5c
+	// 
+	// 
+	// 
+	// 
+	// 
+	// 
+	//std::vector<std::pair<std::vector<int>, double>> terms1 = {
+	//	{{2, 0, 0}, 3.0},  // 3a^2
+	//	{{0, 2, 0}, 2.0},  // 2b^2
+	//	{{0, 0, 1}, 5.0}   // 5c
+	//};
+
+	//std::vector<std::pair<std::vector<int>, double>> terms2 = {
+	//	{{2, 0, 0}, 4.0},  // 4a^2
+	//	{{0, 1, 0}, 3.0},  // 3b
+	//	{{0, 0, 1}, 2.0}   // 2c
+	//};
+
+	//MultivariatePolynomial poly1(terms1);
+	//poly1.print();
+	//MultivariatePolynomial poly2(terms2);
+	//poly2.print();
+
+	//MultivariatePolynomial sumPoly = poly1 + poly2;
+	//std::cout << "sum polynomials is: ";
+	//sumPoly.print();
+
+	//MultivariatePolynomial diffPoly = poly1 - poly2;
+	//std::cout << "diff polynomials is: ";
+	//diffPoly.print();
+
+	//MultivariatePolynomial resultPoly = poly1 * poly2;
+	//std::cout << "mul polynomials is: ";
+
+	//resultPoly.print();
+
+	//std::vector<std::pair<std::vector<int>, double>> terms11 = {
+	//{{3, 2}, 6.0},  // 6a^3b^2
+	//{{2, 1}, 3.0},  // 3a^2b
+	//{{1, 2}, 9.0}   // 9ab^2
+	//};
+
+	//std::vector<std::pair<std::vector<int>, double>> terms22 = {
+	//	{{1, 1}, 3.0}   // 3ab
+	//};
+
+
+	//MultivariatePolynomial poly11(terms11);
+	//MultivariatePolynomial poly22(terms22);
+
+	//poly11.print();
+	//poly22.print();
+	//auto result = poly11 / poly22;
+
+	//std::cout << "Quotient: ";
+	//result.first.print();
+	//std::cout << "Remainder: ";
+	//result.second.print();
+
+	//std::vector<std::pair<std::vector<int>, double>> terms228 = {
+	//	{{4, 2}, 1.0}  // 1 * x^2 * y^2
+	//};
+
+	//MultivariatePolynomial poly228(terms228);
+	//poly228.print();
+	//try
+	//{
+	//	auto res = poly228.sqrt();
+	//	std::cout << "square root from poly228 is: ";
+	//	res.print();
+	//}
+	//catch (std::exception& err)
+	//{
+	//	std::cout << err.what() << std::endl;
+	//}
+
+
+
+	//std::vector<std::pair<std::vector<int>, double>> terms1337 = {
+	//	{{4,0,0},1.0},
+	//	{{2,1,0},2},
+	//	{{2,0,3},2},
+	//	{{0,2,0},1},
+	//	{{0,1,3},2},
+	//	{{0,0,6},1}
+	//};
+	//MultivariatePolynomial poly1337(terms1337);
+	//poly1337.print();
+	//try
+	//{
+	//	auto res_ = poly1337.sqrt();
+	//	res_.print();
+
+	//}
+	//catch (std::exception& err)
+	//{
+	//	std::cout << err.what() << std::endl;
+	//}
+	//return 0;
+
+
+
+
+	//std::vector<std::pair<std::vector<int>, double>> terms321 = {
+	//	{{2, 0}, 4.0}, // 4a^2
+	//	{{1, 1}, 4.0}, // 4ab
+	//	{{0, 2}, 1.0}  // b^2
+	//};
+	//MultivariatePolynomial poly123(terms321);
+	//poly123.print();
+	//try
+	//{
+	//	MultivariatePolynomial sqrtPoly = poly123.sqrt();
+	//	std::cout << "Square root of polynomial: ";
+	//	sqrtPoly.print();
+
+	//}
+	//catch (std::exception& err)
+	//{
+	//	std::cout << err.what() << std::endl;
+	//}
+
+
+
+	/*UnivariatePolynomial test_poly({ 0,0,0,0,1,2,1,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,1 });
+	test_poly.print();
+	auto new_poly = test_poly.sqrt();
+	new_poly.print();*/
+
+
+	std::vector<std::pair<std::vector<int>, double>> terms1337 = {
+		{{4,0,0},1.0},
+		{{2,1,0},2},
+		{{2,0,3},2},
+		{{0,2,0},1},
+		{{0,1,3},2},
+		{{0,0,6},1}
 	};
+	MultivariatePolynomial poly1337(terms1337);
+	poly1337.print();
+	try
+	{
+		auto res_ = poly1337.sqrt();
+		res_.print();
 
-	std::vector<std::pair<std::vector<int>, double>> terms2 = {
-		{{2, 0, 0}, 4.0},  // 4a^2
-		{{0, 1, 0}, 3.0},  // 3b
-		{{0, 0, 1}, 2.0}   // 2c
-	};
-
-	MultivariatePolynomial poly1(terms1);
-	poly1.print();
-	MultivariatePolynomial poly2(terms2);
-	poly2.print();
-
-	MultivariatePolynomial sumPoly = poly1 + poly2;
-	std::cout << "sum polynomials is: ";
-	sumPoly.print();
-
-	MultivariatePolynomial diffPoly = poly1 - poly2;
-	std::cout << "diff polynomials is: ";
-	diffPoly.print();
-
-	MultivariatePolynomial resultPoly = poly1 * poly2;
-	std::cout << "mul polynomials is: ";
-
-	resultPoly.print();
-
-	std::vector<std::pair<std::vector<int>, double>> terms11 = {
-	{{3, 2}, 6.0},  // 6a^3b^2
-	{{2, 1}, 3.0},  // 3a^2b
-	{{1, 2}, 9.0}   // 9ab^2
-	};
-
-	std::vector<std::pair<std::vector<int>, double>> terms22 = {
-		{{1, 1}, 3.0}   // 3ab
-	};
-
-
-	MultivariatePolynomial poly11(terms11);
-	MultivariatePolynomial poly22(terms22);
-
-	// Деление многочленов
-	poly11.print();
-	poly22.print();
-	auto result = poly11 / poly22;
-
-	// Вывод частного и остатка
-	std::cout << "Quotient: ";
-	result.first.print();
-	std::cout << "Remainder: ";
-	result.second.print();
-
+	}
+	catch (std::exception& err)
+	{
+		std::cout << err.what() << std::endl;
+	}
 	return 0;
 }

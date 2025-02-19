@@ -141,7 +141,7 @@ bool UnivariatePolynomial::operator!=(const UnivariatePolynomial& other) const
 	return false;
 }
 
-UnivariatePolynomial UnivariatePolynomial::findRoots() const {
+UnivariatePolynomial UnivariatePolynomial::sqrt() const {
 	// Проверяем, что степень многочлена чётная
 	int degree = this->getDegree();
 	if (degree % 2 != 0) {
@@ -223,3 +223,8 @@ std::pair<UnivariatePolynomial, UnivariatePolynomial> UnivariatePolynomial::oper
 	std::pair<UnivariatePolynomial, UnivariatePolynomial> result(quotient, remainder);
 	return result;
 }
+
+std::vector<double> UnivariatePolynomial::getCoefficients() const {
+    return coefficients;
+}
+
