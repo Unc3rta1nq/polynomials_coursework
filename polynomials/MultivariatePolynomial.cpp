@@ -43,51 +43,55 @@ void MultivariatePolynomial::print() const {
 
 	for (auto it = coefficients.rbegin(); it != coefficients.rend(); ++it)
 	{
-		const auto& degrees = it->first;
 		double coef = it->second;
+		const auto& degrees = it->first;
 
 		if (coef != 0.0)
 		{
-			if (!firstTerm)
+			if (firstTerm)
 			{
-				if (coef > 0.0)
-					std::cout << " + ";
-				else
-					std::cout << " - ";
-				coef = std::abs(coef);
+				if (coef < 0.0) std::cout << "-";
 			}
-			else if (coef < 0.0)
+			else
 			{
-				std::cout << " - ";
-				coef = std::abs(coef);
+				std::cout << (coef > 0.0 ? " + " : " - ");
 			}
 
+			double absCoef = std::abs(coef);
 
-			if (std::abs(coef - 1.0) > 1e-6 || degrees == std::vector<int>(degrees.size(), 0))
+			bool isConstant = true;
+			for (int deg : degrees)
 			{
-				std::cout << coef;
+				if (deg > 0)
+				{
+					isConstant = false;
+					break;
+				}
 			}
 
+			if (absCoef != 1.0 || isConstant)
+			{
+				std::cout << absCoef;
+			}
 
 			for (size_t i = 0; i < degrees.size(); ++i)
 			{
 				if (degrees[i] > 0)
 				{
-					std::cout << char('a' + i); // Переменные, например, 'a', 'b', 'c', ...
+					std::cout << char('a' + i);
 					if (degrees[i] > 1)
+					{
 						std::cout << "^" << degrees[i];
+					}
 				}
 			}
-
 			firstTerm = false;
 		}
 	}
-
 	if (firstTerm)
 	{
 		std::cout << "0";
 	}
-
 	std::cout << std::endl;
 }
 

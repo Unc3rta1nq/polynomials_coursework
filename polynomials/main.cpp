@@ -40,21 +40,21 @@ int main(void) {
 	std::cout << "Remainder: ";
 	divide.second.print();
 
-	std::cout << std::endl;*/
+	std::cout << std::endl;
 
-	/*UnivariatePolynomial poly({ 9,-12,10,-4,1 });;
+	UnivariatePolynomial poly({ 9,-12,10,-4,1 });;
 	poly.print();
 	std::cout << "Default poly: ";
 	poly.print();
 	std::cout << "sqrt(poly) is: ";
-	auto roots = poly.findRoots();
+	auto roots = poly.sqrt();
 	roots.print();
 	try {
 		UnivariatePolynomial poly2({ 1,2,0,1 });
 		std::cout << "Default poly: ";
 		poly2.print();
 		std::cout << "sqrt(poly) is: ";
-		auto roots1 = poly2.findRoots();
+		auto roots1 = poly2.sqrt();
 		roots1.print();
 	}
 	catch (const std::exception& e) {
@@ -467,5 +467,8 @@ int main(void) {
 	{
 		std::cout << err.what() << std::endl;
 	}
+
 	return 0;
+
+	
 }

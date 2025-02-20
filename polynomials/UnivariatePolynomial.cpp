@@ -24,37 +24,55 @@ void UnivariatePolynomial::print() const
 {
 	size_t degree = coefficients.size() - 1;
 	bool printed = false;
-	for (size_t i = degree; i > 0; --i) {
+	// Вывод членов с ненулевыми степенями
+	for (size_t i = degree; i > 0; --i)
+	{
 		double coef = coefficients[i];
-		if (coef != 0.0) {
+		if (coef != 0.0)
+		{
+			// Вывод знака
 			if (printed && coef > 0.0)
 				std::cout << " + ";
-			else if (coef < 0.0) {
+			else if (coef < 0.0)
+			{
 				std::cout << " - ";
-				coef = -coef;
+				coef = -coef; // Абсолютное значение для вывода
 			}
-			std::cout << coef;
+
+			// Вывод коэффициента только если он не равен 1 или -1
+			if (std::abs(coef - 1.0) > 1e-6)
+			{ // Сравнение с учетом погрешности
+				std::cout << coef;
+			}
+
+			// Вывод переменной и степени
+			std::cout << "a";
 			if (i > 1)
-				std::cout << "x^" << i;
-			else if (i == 1)
-				std::cout << "x";
+				std::cout << "^" << i;
+
 			printed = true;
 		}
 	}
+	// Обработка свободного члена (степень 0)
 	double coef = coefficients[0];
-	if (coef != 0.0) {
+	if (coef != 0.0)
+	{
 		if (printed && coef > 0.0)
 			std::cout << " + ";
-		else if (coef < 0.0) {
+		else if (coef < 0.0)
+		{
 			std::cout << " - ";
 			coef = -coef;
 		}
-		std::cout << coef;
+		std::cout << coef; // Для константы всегда выводим коэффициент
+		printed = true;
 	}
-	else if (!printed)
+	// Если ничего не напечатано, выводим 0
+	if (!printed)
 		std::cout << "0";
 	std::cout << std::endl;
 }
+
 
 double UnivariatePolynomial::evaluate_horner(double x) const
 {
@@ -95,7 +113,8 @@ bool UnivariatePolynomial::isZero() const
 
 double& UnivariatePolynomial::operator[](int index)
 {
-	if (index < 0 || index > coefficients.size()) {
+	if (index < 0 || index >= coefficients.size())
+	{
 		throw std::out_of_range("Index out of range");
 	}
 	return coefficients[index];
