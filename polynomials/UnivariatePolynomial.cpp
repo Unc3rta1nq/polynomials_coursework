@@ -74,7 +74,7 @@ void UnivariatePolynomial::print() const
 }
 
 
-double UnivariatePolynomial::evaluate_horner(double x) const
+double UnivariatePolynomial::evaluate(double x) const
 {
 	double result = coefficients.back(); // Начинаем с наивысшей степени
 	for (int i = coefficients.size() - 1; i >= 0; i--) {

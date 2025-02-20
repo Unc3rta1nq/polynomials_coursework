@@ -27,6 +27,9 @@
     <ClCompile Include="AbstractMultivariatePolynomial.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClCompile>
+    <ClCompile Include="tests.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractUnivariatePolynomial.hpp">

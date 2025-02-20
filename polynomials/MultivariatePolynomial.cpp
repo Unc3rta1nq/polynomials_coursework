@@ -96,8 +96,7 @@ void MultivariatePolynomial::print() const {
 }
 
 
-double MultivariatePolynomial::evaluate_horner(const std::vector<double>& variables) const {
-
+double MultivariatePolynomial::evaluate(const std::vector<double>& variables) const {
 	if (!validateVariables(variables))
 	{
 		throw std::invalid_argument("Error: The number of variables in the input vector does not match the number of variables in the polynomial.");
@@ -112,10 +111,24 @@ double MultivariatePolynomial::evaluate_horner(const std::vector<double>& variab
 
 		double term_value = coef;
 
-
 		for (size_t i = 0; i < powers.size(); ++i)
 		{
-			term_value *= std::pow(variables[i], powers[i]);
+			double base = variables[i];
+			int exp = powers[i];
+
+			// Быстрое возведение в степень
+			double powered_value = 1.0;
+			while (exp > 0)
+			{
+				if (exp % 2 == 1)
+				{
+					powered_value *= base;
+				}
+				base *= base;
+				exp /= 2;
+			}
+
+			term_value *= powered_value;
 		}
 
 		result += term_value;
@@ -123,7 +136,6 @@ double MultivariatePolynomial::evaluate_horner(const std::vector<double>& variab
 
 	return result;
 }
-
 
 int MultivariatePolynomial::getDegree() const {
 	int max_degree = 0;

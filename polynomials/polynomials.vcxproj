@@ -130,6 +130,7 @@
     <ClCompile Include="AbstractMultivariatePolynomial.hpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MultivariatePolynomial.cpp" />
+    <ClCompile Include="tests.cpp" />
     <ClCompile Include="UnivariatePolynomial.cpp" />
   </ItemGroup>
   <ItemGroup>

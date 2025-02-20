@@ -8,7 +8,7 @@ public:
 	UnivariatePolynomial(const int size);
 	~UnivariatePolynomial() override;
 	void print() const override;
-	double evaluate_horner(double x) const override;
+	double evaluate(double x) const override;
 	int getDegree() const override;
 	double getCoefficient(int power) const override;
 	void setCoefficient(int power, double value) override;

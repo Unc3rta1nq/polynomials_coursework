@@ -8,7 +8,7 @@ public:
 	MultivariatePolynomial(const std::vector<std::pair<std::vector<int>, double>>& terms);
 	~MultivariatePolynomial();
 	void print() const override;
-	double evaluate_horner(const std::vector<double>& variables) const override;
+	double evaluate(const std::vector<double>& variables) const override;
 	int getDegree() const override;
 	double getCoefficient(const std::vector<int>& powers) const override;
 	void setCoefficient(const std::vector<int>& powers, double value) override;
